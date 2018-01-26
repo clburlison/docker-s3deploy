@@ -1,11 +1,13 @@
-FROM alpine:latest as builder
-ENV VERSION 1.2
+FROM golang:alpine as builder
 
 RUN apk --no-cache add ca-certificates
+RUN apk update
+RUN apk upgrade
+RUN apk add --no-cache git
 WORKDIR /root/
-ADD https://github.com/bep/s3deploy/releases/download/v${VERSION}/s3deploy_${VERSION}_Linux-64bit.tar.gz s3deploy.tar.gz
-RUN tar xvzf s3deploy.tar.gz
+RUN go get -v github.com/bep/s3deploy
+RUN which s3deploy
 
 FROM alpine:latest
 RUN apk --no-cache add ca-certificates
-COPY --from=builder /root/s3deploy /usr/local/bin/s3deploy
+COPY --from=builder /go/bin/s3deploy /usr/local/bin/s3deploy
