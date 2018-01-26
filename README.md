@@ -1,5 +1,7 @@
 # docker-s3deploy
 
+https://hub.docker.com/r/clburlison/s3deploy/
+
 A docker container for https://github.com/bep/s3deploy
 
 ```bash
